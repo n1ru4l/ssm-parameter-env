@@ -3,6 +3,9 @@
 const pickBy = require("lodash.pickby");
 const findKey = require("lodash.findkey");
 const objectValues = require("object.values");
+const once = require("lodash.once");
+
+const defaultExpire = 5 * 60 * 1000;
 
 function isSsmValue(value) {
   return String(value).startsWith("ssm:");
@@ -12,16 +15,29 @@ function filterSsmKeys(object) {
   return pickBy(object, isSsmValue);
 }
 
-function getEnvironment({ env, ssm }) {
-  return new Promise((resolve, reject) => {
-    const ssmParameters = filterSsmKeys(env);
-    if (Object.keys(ssmParameters).length === 0) {
-      return resolve(env);
-    }
-    const ssmParameterNames = objectValues(ssmParameters).map(value =>
-      value.replace("ssm:", "")
-    );
-    ssm
+function createGetEnvironment({ env, ssm, expires = defaultExpire }) {
+  const ssmParameters = filterSsmKeys(env);
+
+  // If there are no ssm params we do not need to refresh them
+  if (Object.keys(ssmParameters).length === 0) {
+    return function getEnvironment() {
+      return Promise.resolve(env);
+    };
+  }
+
+  const expireIn = Boolean(expires) && expires > 0 ? parseInt(expires, 10) : 0;
+  let expireDate = null;
+
+  function resetExpireDate() {
+    expireDate = new Date(new Date().getTime() + expireIn);
+  }
+
+  const ssmParameterNames = objectValues(ssmParameters).map(value =>
+    value.replace("ssm:", "")
+  );
+
+  function fetchParameters() {
+    return ssm
       .getParameters({
         Names: ssmParameterNames,
         WithDecryption: true
@@ -41,17 +57,28 @@ function getEnvironment({ env, ssm }) {
           message += parameterMappings.join(", ");
           // prettier-ignore
           const error = new Error(message)
-          return reject(error);
+          return Promise.reject(error);
         }
         const result = {};
-        Parameters.forEach(({ Name, Value }) => {
-          const identifier = `ssm:${Name}`;
+        Parameters.forEach(({ Name: name, Value: value }) => {
+          const identifier = `ssm:${name}`;
           const key = findKey(ssmParameters, value => value === identifier);
-          result[key] = Value;
+          result[key] = value;
         });
-        resolve(Object.assign({}, env, result));
+        return Object.assign({}, env, result);
       });
-  });
+  }
+
+  let cachedFetchParameters = once(fetchParameters);
+  resetExpireDate();
+
+  return function getEnvironment() {
+    if (new Date() > expireDate) {
+      cachedFetchParameters = once(fetchParameters);
+      resetExpireDate();
+    }
+    return cachedFetchParameters();
+  };
 }
 
-module.exports = getEnvironment;
+module.exports = createGetEnvironment;

@@ -16,6 +16,7 @@
     "husky": "0.14.3",
     "jest": "22.4.2",
     "lint-staged": "7.0.0",
+    "lolex": "2.3.2",
     "prettier": "1.10.2",
     "prettier-check": "2.0.0"
   },
@@ -31,6 +32,7 @@
   },
   "dependencies": {
     "lodash.findkey": "^4.6.0",
+    "lodash.once": "^4.1.1",
     "lodash.pickby": "^4.6.0",
     "object.values": "^1.0.4"
   }
