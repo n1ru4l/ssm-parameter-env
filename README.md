@@ -6,25 +6,44 @@ Supply your environment with the [AWS Systems Manager Parameter Store](https://d
 
 `yarn install @n1ru4l/ssm-parameter-env@https://github.com/n1ru4l/ssm-parameter-env.git`
 
-## Usage Example
+## Usage Example (lambda)
 
 ```js
+"use strict";
 const AWS = require("aws-sdk");
 const ssm = new AWS.SSM();
-const getEnvironment = require("@n1ru4l/ssm-parameter-env");
+const createGetEnvironment = require("@n1ru4l/ssm-parameter-env");
 const expect = require("expect");
 
+// You would probably use process.env
 const env = {
   MY_SCURR: "ssm:/Scurr/Burr/Eagle",
   MY_BAZZ: "Passthrough value"
 };
 
-getEnvironment({ env, ssm }).then(env => {
-  expect(env).toEqual({
-    MY_SCURR: "TOP SECRET VALUE",
-    MY_BAZZ: "Passthrough value"
-  }); // true
+// Create outside of handler to use in-memory caching (default is 5 minutes)
+const getEnvironment = createGetEnvironment({
+  env,
+  ssm,
+  expires: 5 * 60 * 1000
 });
+
+module.exports.handler = (event, context, callback) => {
+  getEnvironment().then(env => {
+    expect(env).toEqual({
+      MY_SCURR: "TOP SECRET VALUE",
+      MY_BAZZ: "Passthrough value"
+    }); // true
+
+    const response = {
+      statusCode: 200,
+      body: JSON.stringify({
+        message: env.MY_SCURR
+      })
+    };
+    callback(null, response);
+  });
+};
 ```
 
 More documentation will follow soon. For more detail you can take a look at the [tests](./src/index.test.js) 😇.
@@ -61,12 +80,10 @@ If you do not care about fine graned access control just use these iamRoleStatem
 * [x] Make it compatible to serverless framework (offline mode)
 * [ ] Test in Real World Application
 * [ ] Publish to npm
-* [ ] Implement caching
+* [x] Implement caching
 
 ## Useful Links
 
-This package is heavily inspired by [this medium article](https://hackernoon.com/you-should-use-ssm-parameter-store-over-lambda-env-variables-5197fc6ea45b).
+* [You should use ssm parameter store over lambda env variables](https://hackernoon.com/you-should-use-ssm-parameter-store-over-lambda-env-variables-5197fc6ea45b)
 
-```
-
-```
+* [AWS Lambda lifecycle and in-memory caching](https://medium.com/@tjholowaychuk/aws-lambda-lifecycle-and-in-memory-caching-c9cd0844e072)

@@ -1,6 +1,7 @@
 "use strict";
 
-const getEnvironment = require(".");
+const lolex = require("lolex");
+const createGetEnvironment = require(".");
 
 test("it pass through an environment object that contains no ssm parameters", done => {
   expect.assertions(1);
@@ -8,7 +9,9 @@ test("it pass through an environment object that contains no ssm parameters", do
     MY_FOO: "test",
     MY_SCURR: "wezz"
   };
-  getEnvironment({ env }).then(data => {
+  const getEnvironment = createGetEnvironment({ env });
+
+  getEnvironment().then(data => {
     expect(data).toEqual({
       MY_FOO: "test",
       MY_SCURR: "wezz"
@@ -47,7 +50,8 @@ test("it calls the ssm object with the right parameters", done => {
     }
   };
 
-  getEnvironment({ env, ssm })
+  const getEnvironment = createGetEnvironment({ env, ssm });
+  getEnvironment()
     .catch(() => null)
     .then(() => {
       done();
@@ -76,7 +80,8 @@ test("it can resolve and map the values from ssm correctly", done => {
         })
     })
   };
-  getEnvironment({ env, ssm })
+  const getEnvironment = createGetEnvironment({ env, ssm });
+  getEnvironment()
     .then(data => {
       expect(data).toEqual({
         MY_FOO: "cheese",
@@ -102,9 +107,139 @@ test("it rejects if there is an invalid parameter", done => {
         })
     })
   };
-  getEnvironment({ env, ssm }).catch(err => {
+
+  const getEnvironment = createGetEnvironment({ env, ssm });
+  getEnvironment().catch(err => {
     // prettier-ignore
     expect(err.message).toEqual("Failed to receive the following parameters: MY_FOO (ssm:/MyVariable/Foo)")
     done();
   });
+});
+
+test("it does not refetch the parameters when they have not expired", done => {
+  expect.assertions(0);
+  const env = {
+    MY_FOO: "ssm:/MyVariable/Foo",
+    MY_SCURR: "wezz"
+  };
+  let counter = 0;
+  const ssm = {
+    getParameters: () => ({
+      promise: () => {
+        if (counter === 0) {
+          counter++;
+          return Promise.resolve({
+            Parameters: [
+              {
+                Name: "/MyVariable/Foo",
+                Type: "SecureString",
+                Value: "cheese",
+                Version: 1
+              }
+            ],
+            InvalidParameters: []
+          });
+        } else {
+          done.fail("getParameters is called multiple times");
+        }
+      }
+    })
+  };
+
+  const getEnvironment = createGetEnvironment({ env, ssm });
+  getEnvironment()
+    .then(() => {
+      return getEnvironment();
+    })
+    .then(() => done());
+});
+
+test("it does refetch the parameters when they have expired", done => {
+  expect.assertions(3);
+  const clock = lolex.install();
+  const env = {
+    MY_FOO: "ssm:/MyVariable/Foo",
+    MY_SCURR: "wezz"
+  };
+  let counter = 0;
+  const ssm = {
+    getParameters: () => ({
+      promise: () => {
+        if (counter === 0) {
+          counter++;
+          return Promise.resolve({
+            Parameters: [
+              {
+                Name: "/MyVariable/Foo",
+                Type: "SecureString",
+                Value: "cheese",
+                Version: 1
+              }
+            ],
+            InvalidParameters: []
+          });
+        } else if (counter === 1) {
+          counter++;
+          return Promise.resolve({
+            Parameters: [
+              {
+                Name: "/MyVariable/Foo",
+                Type: "SecureString",
+                Value: "cracker",
+                Version: 2
+              }
+            ],
+            InvalidParameters: []
+          });
+        } else if (counter === 2) {
+          counter++;
+          return Promise.resolve({
+            Parameters: [
+              {
+                Name: "/MyVariable/Foo",
+                Type: "SecureString",
+                Value: "corgi",
+                Version: 3
+              }
+            ],
+            InvalidParameters: []
+          });
+        } else {
+          done.fail("To many calls");
+        }
+      }
+    })
+  };
+
+  const getEnvironment = createGetEnvironment({ env, ssm });
+  getEnvironment()
+    .then(env => {
+      expect(env).toEqual({
+        MY_FOO: "cheese",
+        MY_SCURR: "wezz"
+      });
+      clock.tick(5 * 60 * 1000 + 1);
+      return getEnvironment();
+    })
+    .then(env => {
+      expect(env).toEqual({
+        MY_FOO: "cracker",
+        MY_SCURR: "wezz"
+      });
+
+      clock.tick(5 * 60 * 1000 + 1);
+      return getEnvironment();
+    })
+    .then(env => {
+      expect(env).toEqual({
+        MY_FOO: "corgi",
+        MY_SCURR: "wezz"
+      });
+      clock.uninstall();
+      done();
+    })
+    .catch(err => {
+      clock.uninstall();
+      done(err);
+    });
 });
