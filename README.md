@@ -31,8 +31,8 @@ More documentation will follow soon. For more detail you can take a look at the 
 
 ## How to use with serverless(-offline)
 
-This plugin sgould work out of the box with serverless-offline.
-You should not any environment variables prefixed with `ssm:/` in your local development environment to prevent any requests to AWS.
+This plugin should work out of the box with serverless-offline.
+You should not any environment variables prefixed with `ssm:` in your local development environment to prevent any request to AWS.
 
 ## Required Permissions
 
