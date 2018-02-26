@@ -31,6 +31,7 @@ More documentation will follow soon. For more detail you can take a look at the 
 
 ## Roadmap
 
+* [ ] Make it compatible to serverless framework (offline mode)
 * [ ] Test in Real World Application
 * [ ] Publish to npm
 * [ ] Implement caching
