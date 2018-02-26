@@ -29,9 +29,36 @@ getEnvironment({ env, ssm }).then(env => {
 
 More documentation will follow soon. For more detail you can take a look at the [tests](./src/index.test.js) 😇.
 
+## How to use with serverless(-offline)
+
+This plugin sgould work out of the box with serverless-offline.
+You should not any environment variables prefixed with `ssm:/` in your local development environment to prevent any requests to AWS.
+
+## Required Permissions
+
+[This document](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-access.html) should cover all info about permissions.
+You will have to give permissions to your target for the following actions: `ssm:GetParameters` and `kms:Decrypt`.
+I recommend to group your ssm parameters with a prefix (e.g. `my-project-production/database-password`). By doing so you can restrict the `ssm:GetParameters` to a subset of ssm parameters that start with the shared prefix (e.g. `my-project-production/*`).
+
+**I use serverless and I don't care, I am testing and I just wanne copy paste stuff**
+
+If you do not care about fine graned access control just use these iamRoleStatements (serverless):
+
+```yml
+  iamStatements:
+    - Effect: Allow
+      Action:
+        - ssm:GetParameters
+      Resource: *
+    - Effect: Allow
+      Action:
+        - kms:Decrypt
+      Resource: *
+```
+
 ## Roadmap
 
-* [ ] Make it compatible to serverless framework (offline mode)
+* [x] Make it compatible to serverless framework (offline mode)
 * [ ] Test in Real World Application
 * [ ] Publish to npm
 * [ ] Implement caching
@@ -39,3 +66,7 @@ More documentation will follow soon. For more detail you can take a look at the 
 ## Useful Links
 
 This package is heavily inspired by [this medium article](https://hackernoon.com/you-should-use-ssm-parameter-store-over-lambda-env-variables-5197fc6ea45b).
+
+```
+
+```
