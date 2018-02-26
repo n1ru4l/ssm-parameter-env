@@ -2,9 +2,15 @@
 
 Supply your environment with the [AWS Systems Manager Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-paramstore.html)
 
-**FYI** This library is currently not published to npm. If you want to try it out and give feedback you will have to install it with the following command:
+## Install
 
-`yarn install @n1ru4l/ssm-parameter-env@https://github.com/n1ru4l/ssm-parameter-env.git`
+### yarn
+
+`yarn add -D @n1ru4l/ssm-parameter-env`
+
+### npm
+
+`npm install -D @n1ru4l/ssm-parameter-env`
 
 ## Usage Example (lambda)
 
@@ -79,7 +85,7 @@ If you do not care about fine graned access control just use these iamRoleStatem
 
 * [x] Make it compatible to serverless framework (offline mode)
 * [ ] Test in Real World Application
-* [ ] Publish to npm
+* [x] Publish to npm
 * [x] Implement caching
 
 ## Useful Links
