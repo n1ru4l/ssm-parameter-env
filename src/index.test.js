@@ -205,7 +205,7 @@ test("it does refetch the parameters when they have expired", done => {
             InvalidParameters: []
           });
         } else {
-          done.fail("To many calls");
+          done.fail("Too many calls");
         }
       }
     })
