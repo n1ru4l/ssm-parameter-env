@@ -11,7 +11,7 @@
   "license": "MIT",
   "devDependencies": {
     "aws-sdk": "2.205.0",
-    "eslint": "4.18.1",
+    "eslint": "4.18.2",
     "eslint-config-prettier": "2.9.0",
     "eslint-plugin-jest": "21.12.2",
     "husky": "0.14.3",
