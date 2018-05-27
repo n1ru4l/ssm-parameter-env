@@ -13,7 +13,7 @@
     "aws-sdk": "2.247.1",
     "eslint": "4.19.1",
     "eslint-config-prettier": "2.9.0",
-    "eslint-plugin-jest": "21.15.3",
+    "eslint-plugin-jest": "21.16.0",
     "husky": "0.14.3",
     "jest": "22.4.4",
     "lint-staged": "7.1.2",
