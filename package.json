@@ -17,7 +17,7 @@
     "husky": "0.14.3",
     "jest": "23.3.0",
     "lint-staged": "7.2.0",
-    "lolex": "2.7.0",
+    "lolex": "2.7.1",
     "prettier": "1.13.7",
     "prettier-check": "2.0.0"
   },
