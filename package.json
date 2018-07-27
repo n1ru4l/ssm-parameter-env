@@ -15,7 +15,7 @@
     "eslint-config-prettier": "2.9.0",
     "eslint-plugin-jest": "21.18.0",
     "husky": "0.14.3",
-    "jest": "23.4.1",
+    "jest": "23.4.2",
     "lint-staged": "7.2.0",
     "lolex": "2.7.1",
     "prettier": "1.13.7",
