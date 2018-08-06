@@ -10,7 +10,7 @@
   "files": ["src/index.js", "README.md", "LICENSE"],
   "license": "MIT",
   "devDependencies": {
-    "aws-sdk": "2.286.2",
+    "aws-sdk": "2.287.0",
     "eslint": "5.3.0",
     "eslint-config-prettier": "2.9.0",
     "eslint-plugin-jest": "21.18.0",
