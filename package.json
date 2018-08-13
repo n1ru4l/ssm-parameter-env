@@ -12,7 +12,7 @@
   "devDependencies": {
     "aws-sdk": "2.291.0",
     "eslint": "5.3.0",
-    "eslint-config-prettier": "2.9.0",
+    "eslint-config-prettier": "2.10.0",
     "eslint-plugin-jest": "21.21.0",
     "husky": "0.14.3",
     "jest": "23.5.0",
