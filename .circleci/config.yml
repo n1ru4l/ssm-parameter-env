@@ -3,21 +3,25 @@
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
 version: 2
+
 jobs:
   build:
     docker:
-      - image: circleci/node:6.16@sha256:9f5bc7dc8863ff136907fbe759a57d577c0257cb22a54681809099830b933e74
+      - image: circleci/node:8.10.0
+
     working_directory: ~/repo
     steps:
       - checkout
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
-      - run: yarn install
+            - v1-dependencies-{{ checksum "yarn.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run: yarn
       - save_cache:
           paths:
             - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+          key: v1-dependencies-{{ checksum "yarn.lock" }}
       - run: yarn test
+      - run: yarn prettier-check

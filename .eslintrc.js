@@ -1,19 +1,30 @@
 "use strict";
 
 module.exports = {
-  parserOptions: {
-    ecmaVersion: 6
-  },
-  env: {
-    node: true,
-    es6: true
-  },
-  extends: ["eslint:recommended", "prettier", "plugin:jest/recommended"],
+  extends: ["eslint:recommended", "plugin:jest/recommended", "prettier"],
+  plugins: ["@typescript-eslint"],
   overrides: [
     {
-      files: "**/*.test.js",
+      files: "**/*.js",
       env: {
-        "jest/globals": true
+        node: true,
+        es6: true
+      }
+    },
+    {
+      files: "**/*.ts",
+      parser: "@typescript-eslint/parser",
+      parserOptions: {
+        project: "./tsconfig.json",
+        sourceType: "module"
+      },
+      env: {
+        node: true,
+        es6: true
+      },
+      rules: {
+        "@typescript-eslint/no-unused-vars": "error",
+        "no-unused-vars": "off"
       }
     }
   ]
