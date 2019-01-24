@@ -1,5 +1,5 @@
-import pickBy from "lodash/pickby";
-import findKey from "lodash/findkey";
+import pickBy from "lodash/pickBy";
+import findKey from "lodash/findKey";
 import once from "lodash/once";
 import { SSM } from "aws-sdk";
 
