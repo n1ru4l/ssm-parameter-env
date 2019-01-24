@@ -6,11 +6,11 @@ Supply your environment with the [AWS Systems Manager Parameter Store](https://d
 
 ### yarn
 
-`yarn add -D @n1ru4l/ssm-parameter-env`
+`yarn add @n1ru4l/ssm-parameter-env`
 
 ### npm
 
-`npm install -D @n1ru4l/ssm-parameter-env`
+`npm install @n1ru4l/ssm-parameter-env`
 
 ## Usage Example (lambda)
 
