@@ -24,12 +24,14 @@
     "@types/node": "10.12.18",
     "@typescript-eslint/eslint-plugin": "1.1.0",
     "@typescript-eslint/parser": "1.1.0",
+    "aws-sdk": "2.393.0",
     "eslint": "5.12.1",
     "eslint-config-prettier": "3.6.0",
     "eslint-plugin-jest": "21.27.2",
     "husky": "0.14.3",
     "jest": "23.6.0",
     "lint-staged": "7.3.0",
+    "lodash": "4.17.11",
     "lolex": "2.7.5",
     "prettier": "1.16.1",
     "prettier-check": "2.0.0",
@@ -52,9 +54,8 @@
       "git add"
     ]
   },
-  "peerDependencies": {},
-  "dependencies": {
-    "aws-sdk": "2.393.0",
-    "lodash": "4.17.11"
+  "peerDependencies": {
+    "aws-sdk": "^2.393.0",
+    "lodash": "^4.17.11"
   }
 }
