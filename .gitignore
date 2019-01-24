@@ -19,6 +19,7 @@ yarn-error.log*
 
 # Optional eslint cache
 .eslintcache
+.rpt2_cache
 
 # dotenv environment variables file(s)
 .env
@@ -27,6 +28,7 @@ yarn-error.log*
 #Build generated
 dist/
 build/
+lib/
 
 # Serverless generated files
 .serverless/

@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "module": "es6",
+    "strict": true,
+    "rootDir": "src",
+    "outDir": "lib",
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+    "moduleResolution": "node"
+  },
+  "include": ["src/*.ts"],
+  "exclude": ["src/__tests__/**/*"]
+}
