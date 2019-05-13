@@ -33,7 +33,7 @@
     "lint-staged": "7.3.0",
     "lodash": "4.17.11",
     "lolex": "2.7.5",
-    "prettier": "1.17.0",
+    "prettier": "1.17.1",
     "prettier-check": "2.0.0",
     "rollup": "1.11.3",
     "rollup-plugin-typescript2": "0.21.0",
