@@ -35,7 +35,7 @@
     "lolex": "2.7.5",
     "prettier": "1.18.2",
     "prettier-check": "2.0.0",
-    "rollup": "1.21.2",
+    "rollup": "1.21.3",
     "rollup-plugin-typescript2": "0.24.2",
     "ts-jest": "23.10.5",
     "typescript": "3.6.3"
