@@ -19,7 +19,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "23.3.13",
-    "@types/lodash": "4.14.149",
+    "@types/lodash": "4.14.150",
     "@types/lolex": "3.1.1",
     "@types/node": "10.17.20",
     "@typescript-eslint/eslint-plugin": "1.13.0",
