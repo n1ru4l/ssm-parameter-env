@@ -24,7 +24,7 @@
     "@types/node": "10.17.44",
     "@typescript-eslint/eslint-plugin": "1.13.0",
     "@typescript-eslint/parser": "1.13.0",
-    "aws-sdk": "2.783.0",
+    "aws-sdk": "2.784.0",
     "eslint": "5.16.0",
     "eslint-config-prettier": "3.6.0",
     "eslint-plugin-jest": "21.27.2",
