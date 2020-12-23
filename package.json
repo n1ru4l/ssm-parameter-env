@@ -21,7 +21,7 @@
     "@types/jest": "23.3.13",
     "@types/lodash": "4.14.165",
     "@types/lolex": "3.1.1",
-    "@types/node": "10.17.49",
+    "@types/node": "10.17.50",
     "@typescript-eslint/eslint-plugin": "1.13.0",
     "@typescript-eslint/parser": "1.13.0",
     "aws-sdk": "2.817.0",
