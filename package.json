@@ -26,7 +26,7 @@
     "@typescript-eslint/parser": "1.13.0",
     "aws-sdk": "2.848.0",
     "eslint": "5.16.0",
-    "eslint-config-prettier": "3.6.0",
+    "eslint-config-prettier": "7.2.0",
     "eslint-plugin-jest": "21.27.2",
     "husky": "0.14.3",
     "jest": "23.6.0",
