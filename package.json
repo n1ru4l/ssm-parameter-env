@@ -38,7 +38,7 @@
     "rollup": "1.32.1",
     "rollup-plugin-typescript2": "0.30.0",
     "ts-jest": "23.10.5",
-    "typescript": "3.9.9"
+    "typescript": "3.9.10"
   },
   "scripts": {
     "build": "rollup -c",
